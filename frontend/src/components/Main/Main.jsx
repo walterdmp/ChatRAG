@@ -28,7 +28,7 @@ const Main = () => {
     <div className="main">
       <div className="nav">
         <p>Assistente de Engenharia de Dados</p>
-        <img src={assets.user_icon} alt="Usuário" />
+        {/* O ícone de usuário foi removido daqui */}
       </div>
       <div className="main-container">
         {!showResult ? (
@@ -59,8 +59,8 @@ const Main = () => {
         ) : (
           <div className="result">
             <div className="result-title">
-              <img src={assets.user_icon} alt="Usuário" />
-              <p>{recentPrompt}</p>
+              {/* Aqui também tiramos a imagem e deixamos o texto estilizado */}
+              <p><strong>Você:</strong> {recentPrompt}</p>
             </div>
             <div className="result-data">
               <img src={assets.dummy_icon} alt="Assistente" />

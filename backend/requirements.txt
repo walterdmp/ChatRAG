@@ -1,0 +1,8 @@
+flask
+flask-cors
+chromadb
+google-generativeai
+google-genai
+pandas
+python-dotenv
+gunicorn
