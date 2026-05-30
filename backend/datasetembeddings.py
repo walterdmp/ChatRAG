@@ -1,8 +1,8 @@
 import google.generativeai as generativeai
 import pandas as pd
-import chromadb
 import os
 import time 
+import pickle
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -12,15 +12,10 @@ generativeai.configure(api_key=chave_secreta)
 
 df = pd.read_csv('base_chatRAG.csv') 
 
-chroma_client = chromadb.PersistentClient(path="./banco_vetorial")
+if 'Contexto' in df.columns:
+    df['Conteúdo'] = df['Contexto']
 
-collection = chroma_client.get_or_create_collection(name="base_rag")
-
-documentos = []
-metadados = []
-ids = []
 vetores_embeddings = []
-
 modelo = 'models/gemini-embedding-001'
 
 print("Gerando os embeddings no Google AI Studio...")
@@ -50,19 +45,14 @@ for index, row in df.iterrows():
             else:
                 raise e 
                 
-    documentos.append(contexto) 
-    metadados.append({"pergunta": pergunta}) 
-    ids.append(f"linha_{index}") 
     vetores_embeddings.append(resultado['embedding'])
     
     print(f"Processando: {index + 1} de {len(df)}", end="\r")
     time.sleep(0.5)
 
-collection.add(
-    embeddings=vetores_embeddings,
-    documents=documentos,
-    metadatas=metadados,
-    ids=ids
-)
+df["Embeddings"] = vetores_embeddings
 
-print("\n\nOs registros foram processados e salvos no ChromaDB com sucesso.")
+print("\n\nSalvando a base de dados no formato leve (.pkl)...")
+pickle.dump(df, open('datasetEmbeddings.pkl','wb'))
+
+print("Arquivo datasetEmbeddings.pkl gerado com sucesso!")

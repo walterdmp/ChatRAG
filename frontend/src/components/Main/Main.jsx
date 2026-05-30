@@ -89,7 +89,7 @@ const Main = () => {
             </div>
           </div>
           <p className="bottom-info">
-            Assistente RAG desenvolvido para fins de pesquisa. Respostas geradas via ChromaDB e LLM.
+            Assistente RAG desenvolvido para fins de pesquisa.
           </p>
         </div>
       </div>
